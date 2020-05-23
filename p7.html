@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: black;
+        }
+
+        .console {
+            border: 2px solid red;
+            border-radius: 4px;
+            background-color: grey;
+            display: inline-flex;
+            flex-direction: column;
+            float: right;
+            margin: auto;
+            position: fixed;
+        }
+
+        input {
+            padding: 20px;
+            margin: 5px;
+            border-radius: 4px;
+        }
+
+        .console>button {
+            padding: 5px;
+            margin: 2px 30px;
+            border-radius: 4px;
+        }
+
+        #f {
+            background-color: green;
+        }
+
+        #c {
+            background-color: green;
+        }
+
+        #d {
+            background-color: red;
+        }
+
+        #df {
+            background-color: red;
+        }
+
+        #tb {
+            background-color: white;
+            border: 2px solid red;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 20px;
+            margin: auto;
+            height: auto;
+            width: 500px;
+        }
+
+        #bdy {
+            margin: auto;
+        }
+
+        caption {
+            box-sizing: border-box;
+            background-color: white;
+            color: green;
+            border: 2px solid red;
+            border-radius: 4px;
+            font-size: 30px;
+        }
+
+        header {
+            background-color: tomato;
+            font-size: 20px;
+            font-weight: bolder;
+            padding: 10px;
+        }
+
+        #btn {
+            float: right;
+            position: fixed;
+            padding: 5px;
+            margin: 2px 30px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="scrollingContainer">
+        <header>
+            <button id="btn">Scroll To Top</button>
+            <center>Record Maintainer App</center>
+        </header>
+
+        <div class="console">
+            <input type="text" id="field1" placeholder="field1" autocomplete="off" required>
+            <input type="text" id="field2" placeholder="field2" autocomplete="off" required>
+            <input type="text" id="field3" placeholder="field3" autocomplete="off" required>
+            <br>
+            <button id="f">Embedd Field</button>
+            <button id="df">Delete Embedded Field</button>
+            <br>
+            <input type="text" id="name" autocomplete="off" required>
+            <input type="text" id="class" autocomplete="off" required>
+            <input type="text" id="section" autocomplete="off" required>
+            <br>
+            <button id="c">Add</button>
+            <button id="d">Delete</button>
+        </div>
+        <br><br>
+        <table border="1" id="tb">
+            <caption>Student Data</caption>
+            <tbody id="bdy">
+            </tbody>
+            <tfoot id="foo">
+                <tr>
+                    <td style="text-align: center;border: 2px solid black;">Add Data +</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <script>
+        let bdy = document.getElementById("bdy");
+        let f = document.getElementById("f");
+        let df = document.getElementById("df");
+        let c = document.getElementById("c");
+        let d = document.getElementById("d");
+        let table = document.getElementById("tb");
+
+        sclTp = () => {
+            scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.getElementById("btn").addEventListener("click", sclTp);
+
+        document.getElementById("name").addEventListener("mouseover", () => {
+            document.getElementById("name").focus();
+        });
+
+        document.getElementById("class").addEventListener("mouseover", () => {
+            document.getElementById("class").focus();
+        });
+
+        document.getElementById("section").addEventListener("mouseover", () => {
+            document.getElementById("section").focus();
+        });
+
+
+        document.getElementById("field1").addEventListener("mouseover", () => {
+            document.getElementById("field1").focus();
+        });
+
+        document.getElementById("field2").addEventListener("mouseover", () => {
+            document.getElementById("field2").focus();
+        });
+
+        document.getElementById("field3").addEventListener("mouseover", () => {
+            document.getElementById("field3").focus();
+        });
+
+        embF = () => {
+            if (document.getElementById("field1").value !== "" || document.getElementById("field2").value !== "" || document.getElementById("field3").value !== "") {
+                let thead = table.createTHead();
+                thead.setAttribute("id", "hd");
+                thead.innerHTML = `<th id="one"></th><th id="two"></th><th id="three"></th><th style="color:red">Remove</th>`;
+                document.getElementById("one").innerText = document.getElementById("field1").value;
+                document.getElementById("two").innerText = document.getElementById("field2").value;
+                document.getElementById("three").innerText = document.getElementById("field3").value;
+
+                document.getElementById("name").setAttribute("placeholder", document.getElementById("field1").value);
+                document.getElementById("class").setAttribute("placeholder", document.getElementById("field2").value);
+                document.getElementById("section").setAttribute("placeholder", document.getElementById("field3").value);
+
+                document.getElementById("field1").value = "";
+                document.getElementById("field2").value = "";
+                document.getElementById("field3").value = "";
+
+                window.speechSynthesis.speak(new SpeechSynthesisUtterance("field added successfully"));
+            } else if (document.getElementById("field1").value === "" || document.getElementById("field2").value === "" || document.getElementById("field3").value === "") {
+                setTimeout(() => {
+                    f.innerText = "Give Fields!!!";
+                }, 500);
+                setTimeout(() => {
+                    f.innerText = "Embedd Field";
+                }, 1000);
+            }
+        }
+
+        f.addEventListener("mouseover", embF);
+
+        delembF = () => {
+            if (document.getElementById("hd")) {
+                document.getElementById("hd").remove();
+                document.getElementById("name").removeAttribute("placeholder");
+                document.getElementById("class").removeAttribute("placeholder");
+                document.getElementById("section").removeAttribute("placeholder");
+                window.speechSynthesis.speak(new SpeechSynthesisUtterance("field deleted successfully"));
+            } else if (!document.getElementById("hd")) {
+                setTimeout(() => {
+                    df.innerText = "No Fields Available!!!";
+                }, 500);
+                setTimeout(() => {
+                    df.innerText = "Delete Embedded Field";
+                }, 1000);
+            }
+        }
+
+        df.addEventListener("click", delembF);
+
+        insRow = (e) => {
+            window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);
+
+            if (document.getElementById("name").value !== "" || document.getElementById("class").value !== "" || document.getElementById("section").value !== "") {
+
+                let foo = document.getElementById("foo");
+                foo.deleteRow(-1);
+
+                var ir = bdy.insertRow(-1);
+                ir.insertCell(0).textContent = document.getElementById("name").value;
+                ir.insertCell(1).textContent = document.getElementById("class").value;
+                ir.insertCell(2).textContent = document.getElementById("section").value;
+                ir.insertCell(3).innerHTML = `<input type="radio" onclick="setAttribute('style','color:red;')" value="Remove">`;
+
+                document.getElementById("name").value = "";
+                document.getElementById("class").value = "";
+                document.getElementById("section").value = "";
+
+                window.speechSynthesis.speak(new SpeechSynthesisUtterance("data added successfully"))
+            } else if (document.getElementById("name").value === "" || document.getElementById("class").value === "" || document.getElementById("section").value === "") {
+                setTimeout(() => {
+                    c.innerText = "Give Value!!!";
+                }, 500);
+                setTimeout(() => {
+                    c.innerText = "Add +";
+                }, 1000);
+            }
+        }
+
+        delRow = () => {
+            if (bdy.children.length === 0) {
+                setTimeout(() => {
+                    d.innerText = "List Is Emplt!!!";
+                }, 500);
+                setTimeout(() => {
+                    d.innerText = "Delete";
+                }, 1000);
+            } else {
+                for (let i = 0; i < bdy.children.length; i++) {
+                    if (bdy.children[i].children[3].children[0].hasAttribute("style") === true) {
+                        bdy.removeChild(bdy.children[i]);
+                        window.speechSynthesis.speak(new SpeechSynthesisUtterance("data deleted successfully"));
+                        break;
+                    }
+                }
+            }
+        }
+
+        c.addEventListener("mouseover", insRow);
+        d.addEventListener("click", delRow);
+    </script>
+</body>
+
+</html>
